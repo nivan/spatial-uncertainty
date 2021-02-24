@@ -439,6 +439,7 @@ function addLegend() {
 function Vis03TutorialFunction() {
 
   layerTuto3.addTo(mapVis03);
+  mapVis03.setZoom(8);
   mapVis03.fitBounds(layerTuto3.getBounds());
   var nZoom = mapVis03.getZoom();
   if (nZoom > 9) {
