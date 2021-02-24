@@ -113,9 +113,6 @@ function createMarkers(){
         d3_distance_near.push(L.circleMarker(coords, { radius: 9.6, stroke: true, weight: 0.5, fillColor: cor, fillOpacity: 1, color: 'gray', renderer: myRendererTaxi }).bindPopup("" + value));
       }
     }
-    else if(true){
-
-    }
     else{//sort
       let distribution = distribuicaoSin(feature.properties.id, dist_distance);
       let values = []
