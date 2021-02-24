@@ -26,11 +26,11 @@ var infoVis03;
 var legendVis03;
 
 if (!polyfile) {
-  polyfile = "./spatial_uncertainty/data/rio.geojson";//"./data/polygons.geojson";
+  polyfile = "./data/rio.geojson";//"./data/polygons.geojson";
 }
 
 if (!distributionfile) {
-  distributionfile = "./spatial_uncertainty/data/weather.json";//"./data/distribuicao.json";
+  distributionfile = "./data/weather.json";//"./data/distribuicao.json";
 }
 
 console.log(polyfile, distributionfile);
@@ -66,7 +66,7 @@ d3.json(distributionfile, function (error, distribuicao) {
     distance_near_geodata = polygons_far;
 
 
-    d3.json("./spatial_uncertainty/data/pointsGood.json", function (error, points) {
+    d3.json("./data/pointsGood.json", function (error, points) {
       mapFeaturePoints = points;
     
       //////
