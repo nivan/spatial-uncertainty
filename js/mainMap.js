@@ -9,6 +9,7 @@ let svg = d3.select("body")
 let mapGroup = d3.select("svg").append("g").attr("transform","translate(150,0)");
 let listColors = d3.schemeYlOrRd[9];
 let color = d3.scaleQuantize().domain([0.05,37.34]).range(listColors);
+let mapMode = "glyph";
 
 function legend(x,y,svgContainer,colorScale,scaleType,legendTitle,legendID, minVal, maxVal, payload){
 
@@ -167,20 +168,26 @@ function positionGlyphs(projection,pathGenerator,positionMode="force"){
                             .force("link", d3.forceLink(edges).distance(1));
                             //.force("center", d3.forceCenter().x(w/2).y(h/2));
         
-        let lines = mapGroup.selectAll("line")
+        let lines = undefined;
+        let showLines = false;
+        if(showLines){
+            mapGroup.selectAll("line")
                     .data(edges)
                     .enter()
                     .append("line")
                     .style("stroke", "#ccc")
                     .style("stroke-width", 1);
+        }
         
         //Every time the simulation "ticks", this will be called
         force.on("tick", function() {    
             //
+            if(showLines){
                         lines.attr("x1", function(d) { return d.source.x; })
                         .attr("y1", function(d) { return d.source.y; })
                         .attr("x2", function(d) { return d.target.x; })
                         .attr("y2", function(d) { return d.target.y; });
+            }
             //
             let positions = nodes.filter(node=>node.isFree==1).map(node=>[node.x,node.y]);
             plotGlyphs(positions,projection,pathGenerator);	
@@ -196,12 +203,45 @@ function plotBaseMap(projection,pathGenerator){
     .data(mapData.features)
     .enter()
     .append("path")
+    .attr("class","mapPath")
     .attr("d", pathGenerator)
     .attr("stroke","black")
     .attr("fill",'white');
 }
 
-function plotGlyphs(positions){
+function buildHistograms(numBins){
+    let histograms = {};
+    let extent = [Number.MAX_SAFE_INTEGER,Number.MIN_SAFE_INTEGER];
+    for(let key in distributions){
+        let distribution = distributions[key];
+        let distExtent = d3.extent(distribution);
+        extent[0] = d3.min([extent[0],distExtent[0]]);
+        extent[1] = d3.max([extent[1],distExtent[1]]);
+    }
+    //compute histogram
+    let binWidth = (extent[1]-extent[0])/numBins;
+    histograms["xExtent"] = extent;
+    histograms["bins"] = d3.range(numBins).map(i=>[i*binWidth,(i+1)*binWidth]);
+    histograms["numBins"] = numBins
+    let yValues = [0];
+
+    for(let key in distributions){
+        let distribution = distributions[key];
+        let counts = d3.range(numBins).map(d=>0);
+
+        distribution.forEach(element => {
+            let index = Math.min(counts.length-1,Math.floor((element - extent[0])/binWidth));
+            counts[index] += 1;
+        });
+        histograms[key] = counts;
+        yValues.push(d3.max(counts));
+    }
+    histograms['yExtent'] = d3.extent(yValues);
+
+    return histograms;
+}
+
+function plotGlyphs(positions,projection,pathGenerator,gtype='hist'){
 
     d3.select("#glyphGroup").remove();
     let glyphGroup = mapGroup.append("g").attr("id","glyphGroup");
@@ -209,10 +249,57 @@ function plotGlyphs(positions){
     let ww = 75;
     let hh = 75;
     
+    //
+    let auxPayload = undefined;
+    if(gtype == 'hist'){
+        auxPayload = buildHistograms(10);
+    }
+    else if(gtype == "dotArray"){
+        legend(350,180,svg,color,'sequential','Preciptation','legend');
+    }
+    //
     positions.forEach((center,i)=>{
-        arrayDotGlyph(distributions[i],4,5,glyphGroup,color,"Test"+i,50,50,center[0]-ww/2,center[1]-hh/2);    
+        if(gtype == 'dotArray') arrayDotGlyph(distributions[i],5,4,glyphGroup,color,"Test"+i,50,50,center[0]-ww/2,center[1]-hh/2);    
+        else if(gtype == 'hist') histogramGlyph(auxPayload[i], auxPayload.bins, auxPayload.numBins, auxPayload.yExtent, 
+                                             glyphGroup, "Test"+i,75,50, center[0]-ww/2,center[1]-hh/2, 5)
     });
     
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+async function drawAnimation(){
+
+    let extent = [Number.MAX_SAFE_INTEGER,Number.MIN_SAFE_INTEGER];
+    for(let key in distributions){
+        let distribution = distributions[key];
+        let distExtent = d3.extent(distribution);
+        extent[0] = d3.min([extent[0],distExtent[0]]);
+        extent[1] = d3.max([extent[1],distExtent[1]]);
+    }
+
+
+    
+	for (var i = 0; i < 10; i++) {
+	    if(i < 9){
+            //console.log("tick" + i);
+            mapGroup.selectAll(".mapPath")
+            .attr("fill",(d,i)=>{
+                let distribution = distributions[i];
+                
+                let distSize = distribution.length;
+                let index = getRandomInt(0,distSize);
+                
+                return color(distributions[i][index]);
+            });
+		}
+		if(i==(9)){
+			i=-1;
+		}
+		await sleep(660);
+	}
 }
 
 d3.csv('./data/results.csv').then(function(scalarData){
@@ -233,8 +320,10 @@ d3.csv('./data/results.csv').then(function(scalarData){
         let pathGenerator = d3.geoPath().projection(projection);
         //
         plotBaseMap(projection, pathGenerator);
-        positionGlyphs(projection, pathGenerator);
-        legend(350,180,svg,color,'sequential','Preciptation','legend');
+        if(mapMode == "glyph")
+            positionGlyphs(projection, pathGenerator);
+        else if(mapMode == "animation")
+            drawAnimation();
         //plotDistributions();    
     });    
 })

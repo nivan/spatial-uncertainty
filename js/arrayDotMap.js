@@ -139,6 +139,103 @@ function legend(x,y,svgContainer,colorScale,scaleType,legendTitle,legendID, minV
         }       
 }
 
+function histogramGlyph(counts, bins, numBins, yAxisExtent, svgContainer, id, width, height, posX, posY){
+    //
+    let xScale = d3.scaleBand().domain(d3.range(numBins)).range([0,width]);
+    let yScale = d3.scaleLinear().domain(yAxisExtent).range([height,0]);
+
+    //
+    let container = svgContainer.append("g");
+	container.attr("id","glyph"+ id);
+ 
+    //
+    let centerX = posX + width/2.0;
+    let centerY = posY + height/2.0;
+    let slackness = 5;
+    let adjustedCanvasWidth  = width  - 2*slackness;
+    let adjustedCanvasHeight = height - 2*slackness;
+    let canvasAdjustedX      = centerX - adjustedCanvasWidth/2.0;
+    let canvasAdjustedY      = centerY - adjustedCanvasHeight/2.0;
+
+    //
+    let borderCanvas = container.append("rect")
+                        .data([container])
+                        .attr("class","canvas")
+                        .attr("x",posX)
+                        .attr("y",posY)
+                        .attr("width",width)
+                        .attr("height",height)
+                        .attr("fill","white")
+                        .attr("stroke", "gray");
+    
+    //
+    container.selectAll(".sample")
+    .data(d3.zip(counts,bins))
+    .enter()
+    .append("rect")
+    .attr("class","sample")
+    .attr("x",(d,i)=>posX+xScale(i))
+    .attr("y",d=>posY+yScale(d[0]))
+    .attr("width",xScale.bandwidth())
+    .attr("height",d=>yScale(0)-yScale(d[0]))
+    .attr("fill","#a6bddb")
+    .attr("stroke","black")
+    .on("mouseover",function(){
+        d3.select(this)
+        .attr("stroke","red")
+        .attr("stroke-width",2);
+        
+        let bin    = d3.select(this).data()[0][1];
+        let value  = d3.select(this).data()[0][0];
+        //
+        //sample value label
+        d3.select("#valueLabelGroup").remove();
+        
+        let g = mapGroup
+            .append("g")
+            .attr("id","valueLabelGroup");
+
+        //
+        g.append("text")
+        .attr("id","valueLabel")
+        .attr("text-anchor","middle")
+        .attr("x",posX+width/2)
+        .attr("y",posY-5)
+        .attr("stroke-weight",2)
+        .text("bin = [" + bin[0].toFixed(2) + ", " + bin[1].toFixed(2)   + "] v = " + value.toFixed(2)); 
+
+        let box = g.select("text").node().getBBox();
+        g.select("text").remove();
+
+        g.append("rect")
+        .attr("id","valueLabelBorder")
+        .attr("fill","white")
+        .attr("stroke","black")
+        .attr("x",box.x-2)
+        .attr("y",box.y-2)
+        .attr("width",box.width+4)
+        .attr("height",box.height+4);
+
+        g.append("text")
+        .attr("id","valueLabel")
+        .attr("text-anchor","middle")
+        .attr("x",posX+width/2)
+        .attr("y",posY-5)
+        .attr("stroke-weight",2)
+        .text("bin = [" + bin[0].toFixed(2) + ", " + bin[1].toFixed(2)   + "] v = " + value.toFixed(2));             
+    })
+    .on("mouseout",function(){
+        d3.select(this)
+        .attr("stroke","black")
+        .attr("stroke-width",1);
+        //position label
+        d3.select("#valueLabel")
+        .attr("x",-1000);
+        d3.select("#valueLabelBorder")
+        .attr("x",-1000);
+    });
+}
+
 function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, id, width, height, posX, posY,distMode='quantile'){
     let numSamples = numRows * numColumns;
 
@@ -184,13 +281,15 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
 
     //
     let borderCanvas = container.append("rect")
+    .data([container])
+    .attr("class","canvas")
 	.attr("x",posX)
 	.attr("y",posY)
 	.attr("width",width)
 	.attr("height",height)
 	.attr("fill","white")
 	.attr("stroke", "gray")
-	.attr("stroke-width",slackness);
+	//.attr("stroke-width",slackness);
 
     
     //
@@ -209,7 +308,61 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
 	.attr("width",sampleWidth)
 	.attr("height",sampleHeight)
 	.attr("fill", (d,i)=>color(d[1]))
-	.attr("stroke","black")
-    ;
+    .attr("stroke","black")
+    .on("mouseover",function(){
+        d3.select(this)
+        .attr("stroke","gray")
+        .attr("stroke-width",2);
+
+        let value  = d3.select(this).data()[0][1];
+        
+        //
+        //sample value label
+        d3.select("#valueLabelGroup").remove();
+        
+        let g = mapGroup
+            .append("g")
+            .attr("id","valueLabelGroup");
+
+        //
+        g.append("text")
+        .attr("id","valueLabel")
+        .attr("text-anchor","middle")
+        .attr("x",posX+width/2)
+        .attr("y",posY-5)
+        .attr("stroke-weight",2)
+        .text("v = " + value.toFixed(2)); 
+
+        let box = g.select("text").node().getBBox();
+        g.select("text").remove();
+
+        g.append("rect")
+        .attr("id","valueLabelBorder")
+        .attr("fill","white")
+        .attr("stroke","black")
+        .attr("x",box.x-2)
+        .attr("y",box.y-2)
+        .attr("width",box.width+4)
+        .attr("height",box.height+4);
+
+        g.append("text")
+        .attr("id","valueLabel")
+        .attr("text-anchor","middle")
+        .attr("x",posX+width/2)
+        .attr("y",posY-5)
+        .attr("stroke-weight",2)
+        .text("v = " + value.toFixed(2));    
+            
+    })
+    .on("mouseout",function(){
+        d3.select(this)
+        .attr("stroke","black")
+        .attr("stroke-width",1);
+        //position label
+        d3.select("#valueLabel")
+        .attr("x",-1000);
+        d3.select("#valueLabelBorder")
+        .attr("x",-1000);
+    });
     
 }
