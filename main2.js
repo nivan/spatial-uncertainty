@@ -1,61 +1,221 @@
 let svg = d3.select("body")
     .append("svg")
-    .attr("width",1200)
-    .attr("height",800);
+    .attr("width", 1200)
+    .attr("height", 320);
 
 let distribution = d3.range(1000).map(d=>Math.random());
 
 let values = d3.range(20)
 	.map(d=>distribution[getRandomInt(0,distribution.length)]).sort((a,b)=>(a-b));
 
-//distributions
-//let distributions = [[528, 530, 16, 528, 530, 530, 522, 326, 480, 530, 528, 530, 481, 530, 481, 530, 530, 528, 497, 384, 530, 528, 530, 77, 530, 496, 530, 425, 191, 190, 530, 530, 328, 69, 530, 527, 530, 101, 528, 530, 530, 113, 530, 530, 530, 124, 530, 530, 530, 528, 530, 530, 530, 526, 528, 530, 530, 464, 530, 458, 530, 530, 530, 528, 132, 199, 497, 464, 50, 458, 497, 530, 530, 530, 530, 384, 530, 528, 528, 530, 530, 530],
-// [528, 530, 481, 487, 530, 394, 530, 530, 530, 530, 530, 530, 530, 530, 528, 489, 530, 530, 530, 530, 530, 530, 528, 530, 530, 496, 477, 530, 389, 530, 530, 527, 328, 257, 113, 527, 530, 528, 528, 530, 530, 530, 528, 530, 265, 124, 530, 113, 530, 528, 103, 530, 530, 530, 528, 530, 328, 427, 530, 530, 530, 530, 104, 13, 530, 530, 530, 530, 528, 530, 497, 475, 530, 390, 487, 497, 514, 522, 162, 390, 9, 510],
-// [528, 530, 481, 475, 320, 394, 530, 495, 530, 481, 528, 530, 102, 291, 481, 83, 527, 528, 285, 530, 425, 277, 530, 530, 241, 285, 77, 464, 191, 257, 389, 530, 328, 73, 265, 124, 101, 530, 527, 101, 530, 191, 113, 425, 104, 530, 431, 124, 528, 425, 530, 83, 522, 328, 528, 328, 285, 427, 530, 427, 268, 13, 460, 328, 132, 199, 481, 464, 120, 458, 486, 162, 390, 390, 487, 481, 0, 133, 162, 197, 374, 510],
-// [133, 0, 0, 0, 0, 0, 0, 0, 308, 477, 530, 477, 481, 268, 476, 528, 527, 528, 285, 530, 481, 458, 269, 530, 528, 496, 328, 425, 481, 530, 530, 530, 291, 530, 257, 124, 353, 528, 527, 526, 530, 265, 528, 530, 124, 124, 101, 101, 101, 101, 101, 74, 67, 67, 67, 76, 22, 0, 530, 530, 487, 425, 460, 328, 13, 163, 16, 530, 528, 530, 132, 497, 530, 530, 384, 497, 514, 522, 133, 133, 0, 0],
-// [530, 16, 2, 475, 464, 328, 320, 326, 480, 481, 301, 530, 481, 291, 481, 83, 527, 328, 285, 384, 458, 458, 269, 77, 241, 285, 83, 464, 530, 257, 389, 326, 291, 70, 113, 124, 102, 102, 528, 425, 530, 191, 113, 528, 124, 104, 425, 530, 104, 425, 124, 74, 82, 67, 67, 81, 328, 13, 530, 427, 487, 16, 285, 328, 13, 198, 16, 81, 13, 119, 129, 475, 133, 390, 33, 384, 398, 522, 133, 197, 522, 49]]
-
 let distributions = {};
 
+// Colors Scheme
+let colorScheme = [
+    {
+        "name" : "Sequential (Single-Hue) 1",
+        "schemeName" : "Blues",
+        "size":[9],
+    },
+    {
+        "name" : "Sequential (Single-Hue) 2",
+        "schemeName" : "Greys",
+        "size":[9],
+    }, 
+    {
+        "name" : "Sequential (Single-Hue) 3",
+        "schemeName" : "Reds",
+        "size":[9],
+    }, 
+    {
+        "name" : "Sequential (Multi-Hue) 1",
+        "schemeName" : "YlOrRd",
+        "size":[9],
+        },
+    {
+        "name" : "Sequential (Multi-Hue) 2",
+        "schemeName" : "BuPu",
+        "size":[9],
+    },
+    { 
+        "name" : "Sequential (Multi-Hue) 3",
+        "schemeName" : "PuBuGn",
+        "size":[9],
+    },
+    {
+        "name" : "Diverging 1",
+        "schemeName" : "BrBG",
+        "size":[9],
+    },
+    {
+        "name" : "Diverging 2",
+        "schemeName" : "PuOr",
+        "size":[9],
+    },
+    {
+        "name" : "Diverging 3",
+        "schemeName" : "RdYlGn",
+        "size":[9],
+    },
+];
+
+//Clear function
+function clear() {    
+    d3.select('body').selectAll("circle").remove();
+    d3.select('body').selectAll(".legendCells").remove();
+    d3.select('body').selectAll(".title").remove();
+    d3.select('body').selectAll(".label").remove();
+    d3.select('body').selectAll(".swatch").remove();
+    d3.select('body').selectAll(".canvas").remove();
+}
+
+// -------------------- CREATE AND UPDATE GLYPH COLOR SCHEME -------------------- //
+
+// Append color scheme select menu
+let select = d3.select("body")
+            .append('select')
+            .attr('class', 'select')
+            .attr('id', 'colorSelect')
+            .attr('x', 900)
+            .attr('y', 250)
+            .on('change', setColorScheme);
+
+// Append items to select
+let options = select.selectAll('option')
+                .data(colorScheme)
+                .enter()
+                .append('option')
+                    .text(d => { return d.name })
+                .attr( "value", (d) => { return d.schemeName } );
+
+//Update color scheme
+function setColorScheme(){
+    //Clear
+    clear();
+    d3.select('#sliderCT').property('value', 1);
+
+    //Call Plot Distribution
+    let selectValue = d3.select('select').property('value');
+    plotDistributions(selectValue);
+}
+
+// -------------------- CREATE AND UPDATE GLYPH BACK TRANSPARENCY -------------------- //
+// Append tranparency controller
+let sliderCanvasTransparency = d3.select("body")
+            .append('input')
+            .attr('id', 'sliderCT')
+            .property('type', 'range')
+            .property('min', '0')
+            .property('max', '1')
+            .property('value', 1)
+            .property('step', '0.1')
+            .on('input', d => { glyphBackTransparency() });
+// Append tranparency controller label
+let labelMatrixTranparency = d3.select("body")
+    .append('label')
+    .text("Back transparency")
+    .attr('id', 'lblSliderCT')
+    .attr('for', 'sliderCT');
+
+function glyphBackTransparency(){
+    let opacity = d3.select("#sliderCT").property("value");
+
+    svg.selectAll('.canvas')
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .style("opacity", opacity);
+    
+    svg.selectAll('circle')
+        .transition()
+        .duration(1000)
+        .ease(d3.easeLinear)
+        .style("stroke-opacity", d => {
+            if ( opacity == 0){
+                return 0
+            } else{
+                return opacity
+            }
+        });
+}
+
+// -------------------- UPDATE MATRIX SIZE -------------------- //
+
+//Matrix size contants
+let QUAD_MATRIX_INDEX = 4;
+let RECT_MATRIX_ROWS_INDEX = 2;
+let RECT_MATRIX_COLUMNS_INDEX = 8;
+
+
+// Append matrix size controller
+let sliderMatrixSize = d3.select("body")
+            .append('input')
+            .attr('id', 'sliderMS')
+            .property('type', 'range')
+            .property('min', '1')
+            .property('max', '10')
+            .property('step', '1')
+            .property('value', 1)
+            .on('input', d => { glyphMatrixMultiplier() });
+
+let labelMatrixSize = d3.select("body")
+    .append('label')
+    .text("Matrix size: 1x")
+    .attr('id', 'lblSliderMS')
+    .attr('for', 'sliderMS');
+    
+    function glyphMatrixMultiplier(){
+        clear();
+        let opacity = d3.select('#sliderCT').property("value");
+        d3.select('#sliderCT').property('value', opacity);
+        console.log(opacity);
+        // Append matrix size label
+        let mult = d3.select("#sliderMS").property("value");
+        d3.select("#lblSliderMS").text("Matrix size: " + mult + "x" );
+        
+        QUAD_MATRIX_INDEX = 4 * mult;
+        RECT_MATRIX_ROWS_INDEX = 2 * mult;
+        RECT_MATRIX_COLUMNS_INDEX = 8 * mult;
+        let defaultScale = d3.select("#colorSelect").property("value");
+        plotDistributions(defaultScale);
+    }
+
+
+// -------------------- LOAD DATA -------------------- //
 d3.csv('preciptation.csv').then(function(data){
     data.forEach(element => {
         let index = +element['index_right'];
         if(!(index in distributions)){
             distributions[index] = [];
         }
-
         distributions[index].push(+element['average']);
     });
-    plotDistributions();    
+    let defaultScale = "Blues";
+    plotDistributions(defaultScale);
 })
 
-function plotDistributions(){
-    let listColors = d3.schemeYlOrRd[9];
+// -------------------- PLOT MAIN FUNCTION  -------------------- //
+
+function plotDistributions(c){
+    mult = d3.select("#sliderMS").property("value");
+    let listColors = d3[`scheme${c}`][9];
+
     let color = d3.scaleQuantize().domain([0.05,37.34]).range(listColors);
     //
-    legend(900,30,svg,color,'sequential','Preciptation','legend');
+    legend(900,40,svg,color,'sequential','Rain precipitation','legend');
     //
-    
-    arrayDotGlyph(distributions[0],8,5,svg,color,"Test0",100,100,40,10);
-    arrayDotGlyph(distributions[0],2,10,svg,color,"Test5",150,30,25,120);
+    arrayDotGlyph(distributions[0], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, svg, color, "Test0", 100, 100, 40, 10);
+    arrayDotGlyph(distributions[0], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, svg, color, "Test5", 152, 46, 25, 120);
 
-    //
-    arrayDotGlyph(distributions[1],8,5,svg,color,"Test1",100,100,210,10);
-    arrayDotGlyph(distributions[1],2,10,svg,color,"Test6",150,30,185,120);
-    
-    //
-    arrayDotGlyph(distributions[2],8,5,svg,color,"Test2",100,100,370,10);
-    arrayDotGlyph(distributions[2],2,10,svg,color,"Test7",150,30,345,120);
-    
-    //
-    arrayDotGlyph(distributions[3],8,5,svg,color,"Test3",100,100,530,10);
-    arrayDotGlyph(distributions[3],2,10,svg,color,"Test8",150,30,505,120);
-    
-    //
-    arrayDotGlyph(distributions[4],8,5,svg,color,"Test4",100,100,690,10);
-    arrayDotGlyph(distributions[4],2,10,svg,color,"Test9",150,30,665,120);
+    arrayDotGlyph(distributions[1], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, svg, color, "Test0", 100, 100, 210, 10);
+    arrayDotGlyph(distributions[1], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, svg, color, "Test5", 152, 46, 185, 120);
 
-//arrayDotGlyph(values,1,20,svg,"Test2",150,30,10,150);
-//
-//arrayDotGlyph(values,2,10,svg,"Test2",150,30,10,180);
+    arrayDotGlyph(distributions[2], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, svg, color, "Test0", 100, 100, 370, 10);
+    arrayDotGlyph(distributions[2], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, svg, color, "Test5", 152, 46, 345, 120);
+
+    arrayDotGlyph(distributions[3], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, svg, color, "Test0", 100, 100, 530, 10);
+    arrayDotGlyph(distributions[3], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, svg, color, "Test5", 152, 46, 505, 120);
+    
+    arrayDotGlyph(distributions[4], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, svg, color, "Test0", 100, 100, 690, 10);
+    arrayDotGlyph(distributions[4], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, svg, color, "Test5", 152, 46, 665, 120);
 }
