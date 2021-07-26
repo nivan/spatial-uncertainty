@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="author" content="Edcley José da Silva 032019 POS">
+	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>Estudo Risco e Incerteza em Mapas</title>
+		<!-- JavaScript-->
+		<script type="text/javascript" src="./js/libs/d3.v6.min.js"></script>
+		<script type="text/javascript" src="./js/libs/d3-legend.js"></script>
+		<script type="text/javascript" src="./js/libs/math.min.js"></script>
+		<!-- JQuery Specific-->
+		<!--<script type="text/javascript" src="./js/libs/buttons.js"></script>-->
+		<script type="text/javascript" src="./js/libs/c071df3350.js"></script>
+
+		<!--CSS-->
+
+	</head>
+	<body>
+	  <div>
+		  <label>Select Map: </label>
+	    <select id="mapSelect">
+		</select>
+		<label>Select Dataset: </label>
+		<select id="dataSelect">
+		</select>
+		<label>Vis Strategy: </label>
+		<select id="visSelect">
+		</select>
+		<label>Glyph Position: </label>
+		<select id="posSelect">
+			<option value='fixed'>Centroid</option>
+			<option value='force'>Force Based</option>
+		</select>
+		<input type='button' value='Update' id='updateButton'></input>
+	  </div>
+		<link rel="stylesheet" type="text/css" href="./css/styles.css">
+		
+		<script type="text/javascript" src="./js/arrayDotMap.js"></script>
+		<script type="text/javascript" src="./js/mainUS.js"></script>
+	</body>	
+</html>
