@@ -327,4 +327,3 @@ d3.csv('./data/results.csv').then(function(scalarData){
         //plotDistributions();    
     });    
 })
-
