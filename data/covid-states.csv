@@ -1,0 +1,501 @@
+id,state,cases
+01,Alabama,13799
+01,Alabama,13733
+01,Alabama,19133
+01,Alabama,19687
+01,Alabama,27190
+01,Alabama,36881
+01,Alabama,52315
+01,Alabama,49554
+01,Alabama,51223
+01,Alabama,34901
+02,Alaska,1255
+02,Alaska,2040
+02,Alaska,3063
+02,Alaska,5703
+02,Alaska,7834
+02,Alaska,8946
+02,Alaska,7337
+02,Alaska,4066
+02,Alaska,3818
+02,Alaska,2506
+04,Arizona,8696
+04,Arizona,8154
+04,Arizona,11793
+04,Arizona,20613
+04,Arizona,37950
+04,Arizona,63566
+04,Arizona,89331
+04,Arizona,90917
+04,Arizona,127753
+04,Arizona,86478
+05,Arkansas,10732
+05,Arkansas,11394
+05,Arkansas,12955
+05,Arkansas,15826
+05,Arkansas,22145
+05,Arkansas,25566
+05,Arkansas,30505
+05,Arkansas,31520
+05,Arkansas,38545
+05,Arkansas,24148
+06,California,49435
+06,California,45414
+06,California,51850
+06,California,66898
+06,California,140587
+06,California,241141
+06,California,513618
+06,California,545365
+06,California,567903
+06,California,327800
+08,Colorado,7613
+08,Colorado,9129
+08,Colorado,15759
+08,Colorado,34567
+08,Colorado,66709
+08,Colorado,62669
+08,Colorado,49251
+08,Colorado,32572
+08,Colorado,34307
+08,Colorado,21529
+09,Connecticut,2236
+09,Connecticut,3460
+09,Connecticut,6000
+09,Connecticut,12003
+09,Connecticut,23085
+09,Connecticut,25902
+09,Connecticut,35215
+09,Connecticut,27316
+09,Connecticut,33167
+09,Connecticut,26598
+10,Delaware,1405
+10,Delaware,2240
+10,Delaware,1849
+10,Delaware,2410
+10,Delaware,5056
+10,Delaware,7778
+10,Delaware,11016
+10,Delaware,8721
+10,Delaware,10475
+10,Delaware,8157
+12,Florida,36475
+12,Florida,30064
+12,Florida,47319
+12,Florida,60892
+12,Florida,94307
+12,Florida,117112
+12,Florida,143509
+12,Florida,161572
+12,Florida,205111
+12,Florida,153359
+13,Georgia,21466
+13,Georgia,17299
+13,Georgia,20646
+13,Georgia,54769
+13,Georgia,39167
+13,Georgia,49855
+13,Georgia,80518
+13,Georgia,98543
+13,Georgia,121564
+13,Georgia,95741
+15,Hawaii,1479
+15,Hawaii,1353
+15,Hawaii,1178
+15,Hawaii,1233
+15,Hawaii,1243
+15,Hawaii,1302
+15,Hawaii,1605
+15,Hawaii,1806
+15,Hawaii,2293
+15,Hawaii,1520
+16,Idaho,5130
+16,Idaho,7405
+16,Idaho,10993
+16,Idaho,13614
+16,Idaho,18525
+16,Idaho,18858
+16,Idaho,19378
+16,Idaho,13130
+16,Idaho,13077
+16,Idaho,7407
+17,Illinois,26376
+17,Illinois,30148
+17,Illinois,53726
+17,Illinois,107744
+17,Illinois,168134
+17,Illinois,133756
+17,Illinois,114318
+17,Illinois,81161
+17,Illinois,89304
+17,Illinois,59241
+18,Indiana,11988
+18,Indiana,16862
+18,Indiana,27043
+18,Indiana,45268
+18,Indiana,83461
+18,Indiana,85836
+18,Indiana,82852
+18,Indiana,65219
+18,Indiana,63959
+18,Indiana,37910
+19,Iowa,11720
+19,Iowa,13137
+19,Iowa,15794
+19,Iowa,35162
+19,Iowa,58661
+19,Iowa,34004
+19,Iowa,23859
+19,Iowa,16631
+19,Iowa,20688
+19,Iowa,14219
+20,Kansas,9444
+20,Kansas,9234
+20,Kansas,10995
+20,Kansas,21325
+20,Kansas,37317
+20,Kansas,34177
+20,Kansas,32312
+20,Kansas,26694
+20,Kansas,28235
+20,Kansas,18602
+21,Kentucky,9621
+21,Kentucky,13409
+21,Kentucky,16035
+21,Kentucky,24181
+21,Kentucky,36247
+21,Kentucky,42156
+21,Kentucky,42499
+21,Kentucky,33407
+21,Kentucky,50354
+21,Kentucky,36791
+22,Louisiana,7748
+22,Louisiana,6901
+22,Louisiana,7988
+22,Louisiana,7766
+22,Louisiana,29965
+22,Louisiana,30421
+22,Louisiana,35263
+22,Louisiana,32840
+22,Louisiana,49560
+22,Louisiana,32425
+23,Maine,429
+23,Maine,437
+23,Maine,441
+23,Maine,1459
+23,Maine,2527
+23,Maine,3000
+23,Maine,5607
+23,Maine,6515
+23,Maine,7967
+23,Maine,5950
+24,Maryland,7439
+24,Maryland,7823
+24,Maryland,8692
+24,Maryland,13428
+24,Maryland,27056
+24,Maryland,32413
+24,Maryland,36370
+24,Maryland,34417
+24,Maryland,40860
+24,Maryland,28695
+25,Massachusetts,5202
+25,Massachusetts,7732
+25,Massachusetts,10370
+25,Massachusetts,18764
+25,Massachusetts,32049
+25,Massachusetts,45099
+25,Massachusetts,63597
+25,Massachusetts,60585
+25,Massachusetts,75498
+25,Massachusetts,51216
+26,Michigan,11267
+26,Michigan,14978
+26,Michigan,25216
+26,Michigan,52212
+26,Michigan,95381
+26,Michigan,93321
+26,Michigan,65711
+26,Michigan,37845
+26,Michigan,43034
+26,Michigan,28182
+27,Minnesota,12060
+27,Minnesota,15156
+27,Minnesota,21276
+27,Minnesota,42786
+27,Minnesota,87882
+27,Minnesota,82218
+27,Minnesota,49417
+27,Minnesota,23179
+27,Minnesota,27210
+27,Minnesota,15808
+28,Mississippi,7057
+28,Mississippi,7961
+28,Mississippi,10450
+28,Mississippi,10797
+28,Mississippi,16516
+28,Mississippi,21057
+28,Mississippi,28653
+28,Mississippi,28166
+28,Mississippi,30592
+28,Mississippi,23321
+29,Missouri,20244
+29,Missouri,20190
+29,Missouri,23182
+29,Missouri,36913
+29,Missouri,59713
+29,Missouri,48786
+29,Missouri,43750
+29,Missouri,34907
+29,Missouri,36206
+29,Missouri,21284
+30,Montana,2982
+30,Montana,6210
+30,Montana,9025
+30,Montana,11806
+30,Montana,15594
+30,Montana,12527
+30,Montana,9550
+30,Montana,5325
+30,Montana,7112
+30,Montana,4706
+31,Nebraska,5364
+31,Nebraska,8154
+31,Nebraska,11295
+31,Nebraska,18936
+31,Nebraska,30387
+31,Nebraska,25385
+31,Nebraska,16746
+31,Nebraska,12771
+31,Nebraska,12603
+31,Nebraska,9580
+32,Nevada,5135
+32,Nevada,7044
+32,Nevada,9413
+32,Nevada,13934
+32,Nevada,22987
+32,Nevada,33895
+32,Nevada,36230
+32,Nevada,27013
+32,Nevada,31219
+32,Nevada,17259
+33,New Hampshire,467
+33,New Hampshire,965
+33,New Hampshire,1139
+33,New Hampshire,1957
+33,New Hampshire,4600
+33,New Hampshire,6939
+33,New Hampshire,11233
+33,New Hampshire,9108
+33,New Hampshire,10911
+33,New Hampshire,9350
+34,New Jersey,7360
+34,New Jersey,11394
+34,New Jersey,17405
+34,New Jersey,31857
+34,New Jersey,58140
+34,New Jersey,69418
+34,New Jersey,74328
+34,New Jersey,70002
+34,New Jersey,80694
+34,New Jersey,70614
+35,New Mexico,1979
+35,New Mexico,3993
+35,New Mexico,8104
+35,New Mexico,12249
+35,New Mexico,25341
+35,New Mexico,27104
+35,New Mexico,21575
+35,New Mexico,16326
+35,New Mexico,17350
+35,New Mexico,10531
+36,New York,11545
+36,New York,18824
+36,New York,21335
+36,New York,32486
+36,New York,67462
+36,New York,107003
+36,New York,143095
+36,New York,163852
+36,New York,217198
+36,New York,179777
+37,North Carolina,18829
+37,North Carolina,21978
+37,North Carolina,28540
+37,North Carolina,32953
+37,North Carolina,40628
+37,North Carolina,56258
+37,North Carolina,84136
+37,North Carolina,86136
+37,North Carolina,109274
+37,North Carolina,77891
+38,North Dakota,5229
+38,North Dakota,6247
+38,North Dakota,10247
+38,North Dakota,16330
+38,North Dakota,18336
+38,North Dakota,10964
+38,North Dakota,7280
+38,North Dakota,3107
+38,North Dakota,2823
+38,North Dakota,1847
+39,Ohio,13441
+39,Ohio,17449
+39,Ohio,28348
+39,Ohio,49921
+39,Ohio,97559
+39,Ohio,124146
+39,Ohio,146997
+39,Ohio,100244
+39,Ohio,106834
+39,Ohio,71274
+40,Oklahoma,14846
+40,Oklahoma,15122
+40,Oklahoma,17095
+40,Oklahoma,16044
+40,Oklahoma,39114
+40,Oklahoma,42344
+40,Oklahoma,42622
+40,Oklahoma,39958
+40,Oklahoma,55763
+40,Oklahoma,34935
+41,Oregon,3425
+41,Oregon,4343
+41,Oregon,4815
+41,Oregon,7848
+41,Oregon,14081
+41,Oregon,19575
+41,Oregon,18571
+41,Oregon,14534
+41,Oregon,16064
+41,Oregon,10004
+42,Pennsylvania,11320
+42,Pennsylvania,15890
+42,Pennsylvania,21584
+42,Pennsylvania,35232
+42,Pennsylvania,74752
+42,Pennsylvania,108911
+42,Pennsylvania,137283
+42,Pennsylvania,108224
+42,Pennsylvania,105333
+42,Pennsylvania,77375
+44,Rhode Island,1205
+44,Rhode Island,1555
+44,Rhode Island,2610
+44,Rhode Island,4919
+44,Rhode Island,8532
+44,Rhode Island,12060
+44,Rhode Island,16096
+44,Rhode Island,10526
+44,Rhode Island,13351
+44,Rhode Island,10368
+45,South Carolina,15295
+45,South Carolina,11348
+45,South Carolina,12720
+45,South Carolina,15401
+45,South Carolina,20276
+45,South Carolina,24217
+45,South Carolina,41302
+45,South Carolina,42181
+45,South Carolina,69704
+45,South Carolina,57363
+46,South Dakota,4696
+46,South Dakota,6814
+46,South Dakota,10194
+46,South Dakota,15835
+46,South Dakota,18238
+46,South Dakota,13090
+46,South Dakota,9032
+46,South Dakota,5493
+46,South Dakota,5449
+46,South Dakota,2792
+47,Tennessee,19356
+47,Tennessee,21208
+47,Tennessee,30984
+47,Tennessee,33632
+47,Tennessee,54555
+47,Tennessee,57105
+47,Tennessee,97177
+47,Tennessee,91679
+47,Tennessee,71042
+47,Tennessee,41270
+48,Texas,78473
+48,Texas,63838
+48,Texas,73511
+48,Texas,133823
+48,Texas,161520
+48,Texas,181916
+48,Texas,210278
+48,Texas,216014
+48,Texas,311481
+48,Texas,250604
+49,Utah,10760
+49,Utah,12687
+49,Utah,14659
+49,Utah,21172
+49,Utah,32781
+49,Utah,28559
+49,Utah,25665
+49,Utah,23440
+49,Utah,29377
+49,Utah,16897
+50,Vermont,62
+50,Vermont,118
+50,Vermont,186
+50,Vermont,303
+50,Vermont,1200
+50,Vermont,1347
+50,Vermont,1450
+50,Vermont,1345
+50,Vermont,2227
+50,Vermont,1916
+51,Virginia,12540
+51,Virginia,12497
+51,Virginia,14467
+51,Virginia,18501
+51,Virginia,24806
+51,Virginia,35494
+51,Virginia,51799
+51,Virginia,55783
+51,Virginia,70636
+51,Virginia,72830
+53,Washington,6755
+53,Washington,7984
+53,Washington,9504
+53,Washington,15125
+53,Washington,27655
+53,Washington,35017
+53,Washington,38742
+53,Washington,24005
+53,Washington,39268
+53,Washington,25624
+54,West Virginia,2639
+54,West Virginia,2760
+54,West Virginia,3789
+54,West Virginia,5893
+54,West Virginia,11989
+54,West Virginia,13974
+54,West Virginia,17643
+54,West Virginia,18112
+54,West Virginia,18797
+54,West Virginia,12216
+55,Wisconsin,26042
+55,Wisconsin,33915
+55,Wisconsin,57579
+55,Wisconsin,72364
+55,Wisconsin,94716
+55,Wisconsin,65699
+55,Wisconsin,52761
+55,Wisconsin,32973
+55,Wisconsin,42623
+55,Wisconsin,24722
+56,Wyoming,1168
+56,Wyoming,1990
+56,Wyoming,3350
+56,Wyoming,5792
+56,Wyoming,10813
+56,Wyoming,8531
+56,Wyoming,5547
+56,Wyoming,3085
+56,Wyoming,4495
+56,Wyoming,2636

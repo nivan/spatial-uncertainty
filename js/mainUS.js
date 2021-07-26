@@ -67,7 +67,7 @@ function legend(x,y,svgContainer,colorScale,scaleType,legendTitle,legendID, minV
         
 
     var colorLegend = d3.legendColor()
-        .labelFormat(d3.format(".2f"))
+        .labelFormat(d3.format("d"))
         .useClass(true)
         .scale(colorScale);
 
@@ -191,8 +191,15 @@ function positionGlyphs(pathGenerator,glyphType,positionMode="fixed"){
     if(currentMap == 'sp'){
         ids = map.features.map(d=>d.properties.name);
     }
-    else{
+    else if(currentMap == 'us'){
+        ids = map.features.map(d=>d.id);
+    }
+    else if(currentMap == 'rio'){
         ids = map.features.map(d=>d.properties.id);
+    }
+    else{
+        console.log('Unexpected Map!!!');
+        debugger
     }
     
     if(positionMode=='fixed'){
@@ -282,8 +289,7 @@ function plotBaseMap(){
 	.attr("fill",'#dedede');
 }
 
-function buildHistograms(numBins){
-    let histograms = {};
+function getDistributionsExtent(){
     let extent = [Number.MAX_SAFE_INTEGER,Number.MIN_SAFE_INTEGER];
 
     for(let key in currentDataset){
@@ -293,6 +299,13 @@ function buildHistograms(numBins){
         extent[1] = d3.max([extent[1],distExtent[1]]);
     }
 
+    return extent;
+}
+
+function buildHistograms(numBins){
+    let histograms = {};
+    let extent = getDistributionsExtent();
+    
     //compute histogram
     let binWidth = (extent[1]-extent[0])/numBins;
     histograms["xExtent"] = extent;
@@ -327,9 +340,12 @@ function plotGlyphs(positions,ids,gtype='hist'){
     //
     let auxPayload = undefined;
     if(gtype == 'hist'){
+        //
+        d3.select(".legendQuant").remove();
+        d3.select(".title").remove();
         auxPayload = buildHistograms(10);
     }
-    else if(gtype == "dotArray"){
+    else{
         legend(10,10,svg,color,'sequential','Preciptation','legend');
     }
     
@@ -372,14 +388,13 @@ async function drawAnimation(){
         }
 	    if(i < 9){
             //console.log("tick" + i);
+            
             mapGroup.selectAll(".mapPath")
-            .attr("fill",function(d){
-
+                .attr("fill",function(d){
                     let distribution = undefined;
                     if(nameMapData == 'sp') distribution = currentDataset[d.properties.name];
+                    else if(nameMapData == 'us') distribution = currentDataset[d.id];
                     else distribution = currentDataset[d.properties.id];
-                    // if(distribution == undefined)
-                    //     debugger
                     return color(distribution[getRandomInt(0,distribution.length)]);
         
             });
@@ -511,11 +526,16 @@ function updateDataVis(){
     //remove glyphs
     d3.select("#glyphGroup").remove();
 
+    //
+    let extent = getDistributionsExtent();
+    color.domain(extent);
+
+    //
     if(selectedVis == 'hist'){
         drawHistogramGlyphs();
     }
     else if(selectedVis == 'hops'){
-        debugger
+        legend(10,10,svg,color,'sequential','Preciptation','legend');
         drawAnimation();
     }
     else if(selectedVis == 'dotArray'){
@@ -594,11 +614,14 @@ function loadMaps(){
 }
 
 function loadDatasets(){
-    d3.csv('data/dados_chuva_48h.csv').then(function(spPrecipData){
-        parseData(spPrecipData,'sp','chuvas',idGetter[['sp','chuvas']],valueGetter[['sp','chuvas']]);
-        d3.csv('data/preciptationFinal.csv').then(function(precipData){
-            parseData(precipData,'rio','chuvas',idGetter[['rj','chuvas']],valueGetter[['rj','chuvas']]);
-            initInterface();        
+    d3.csv('data/covid-states.csv').then(function(usCovidData){
+        parseData(usCovidData,'us','covid',idGetter[['us','covid']],valueGetter[['us','covid']]);
+        d3.csv('data/dados_chuva_48h.csv').then(function(spPrecipData){
+            parseData(spPrecipData,'sp','chuvas',idGetter[['sp','chuvas']],valueGetter[['sp','chuvas']]);
+            d3.csv('data/preciptationFinal.csv').then(function(precipData){
+                parseData(precipData,'rio','chuvas',idGetter[['rj','chuvas']],valueGetter[['rj','chuvas']]);
+                initInterface();        
+            });
         });
     });
 }
@@ -606,9 +629,12 @@ function loadDatasets(){
 function mountGetterSetter(){
     idGetter[['sp','chuvas']] = d=>d['municipio'];
     idGetter[['rj','chuvas']] = d=>d['regionID'];
+    idGetter[['us','covid']] = d=>d['id'];
 
     valueGetter[['sp','chuvas']] = d=>(+d['valor_vegetacao']-(+d['valor_urbano']));
     valueGetter[['rj','chuvas']] = d=>+d['value'];          
+    valueGetter[['us','covid']] = d=>+d['cases'];          
+
 }
 
 mountGetterSetter();
