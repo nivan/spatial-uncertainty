@@ -1,0 +1,77 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Estudo Risco e Incerteza em Mapas</title>
+  <!-- JavaScript-->
+  <script type="text/javascript" src="./js/libs/d3.v6.min.js"></script>
+  <script type="text/javascript" src="./js/libs/d3-legend.js"></script>
+  <script type="text/javascript" src="./js/libs/math.min.js"></script>
+  <!-- JQuery Specific-->
+  <!--<script type="text/javascript" src="./js/libs/buttons.js"></script>-->
+  <script type="text/javascript" src="./js/libs/c071df3350.js"></script>
+
+  <!--CSS-->
+  <link rel="shortcut icon" type="image/png" href="./data/favicon-96x96.png" />
+  <link rel="shortcut icon" type="image/png" href="./data/favicon-96x96.png" />
+  <link rel="stylesheet" type="text/css" href="./css/w3.css">
+  <link rel="stylesheet" type="text/css" href="./css/Lato.css">
+  <link rel="stylesheet" type="text/css" href="./css/Montserrat.css">
+  <link rel="stylesheet" type="text/css" href="./css/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/ion.rangeSlider.min.css" />
+  <link rel="stylesheet" type="text/css" href="./css/bs-stepper.min.css">
+
+  <style>
+    .select {
+      position: absolute;
+      top: 600px;
+      left: 30px;
+    }
+
+    #sliderCT {
+      position: absolute;
+      top: 700px;
+      left: 30px;
+    }
+
+    #lblSliderCT {
+      position: absolute;
+      top: 695px;
+      left: 180px;
+    }
+
+    #sliderMS {
+      position: absolute;
+      top: 650px;
+      left: 30px;
+    }
+
+    #lblSliderMS {
+      position: absolute;
+      top: 645px;
+      left: 180px;
+    }
+
+    h3 {
+      margin-left: 30px;
+      margin-top: 20px;
+    }
+    .title{
+      margin-bottom: 16px;
+    }
+    .canvas{
+      border-radius: 3px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <svg id="grafico" width="800" height="800"></svg>
+  <script type="text/javascript" src="map.js"></script>
+  <script type="text/javascript" src="matrixGlyph.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>

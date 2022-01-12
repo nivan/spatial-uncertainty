@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Estudo Risco e Incerteza em Mapas</title>
+  <!-- Leaflet CSS + JavaScript-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <!-- JavaScript-->
+  <script type="text/javascript" src="./js/libs/d3.v6.min.js"></script>
+  <script type="text/javascript" src="./js/libs/d3-legend.js"></script>
+
+  <!-- JQuery Specific-->
+  <!--<script type="text/javascript" src="./js/libs/buttons.js"></script>-->
+  <script type="text/javascript" src="./js/libs/c071df3350.js"></script>
+
+  <!--CSS-->
+  <link rel="shortcut icon" type="image/png" href="./data/favicon-96x96.png" />
+  <link rel="shortcut icon" type="image/png" href="./data/favicon-96x96.png" />
+  <link rel="stylesheet" type="text/css" href="./css/w3.css">
+  <link rel="stylesheet" type="text/css" href="./css/Lato.css">
+  <link rel="stylesheet" type="text/css" href="./css/Montserrat.css">
+  <link rel="stylesheet" type="text/css" href="./css/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="./css/ion.rangeSlider.min.css" />
+
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .select {
+      position: absolute;
+      top: 600px;
+      left: 30px;
+    }
+
+    #sliderCT {
+      position: absolute;
+      top: 700px;
+      left: 30px;
+    }
+
+    #lblSliderCT {
+      position: absolute;
+      top: 695px;
+      left: 180px;
+    }
+
+    #sliderMS {
+      position: absolute;
+      top: 650px;
+      left: 30px;
+    }
+
+    #lblSliderMS {
+      position: absolute;
+      top: 645px;
+      left: 180px;
+    }
+
+    h3 {
+      margin-left: 30px;
+      margin-top: 20px;
+    }
+
+    .title {
+      margin-bottom: 16px;
+    }
+
+    #mapid {
+      width: 1080px;
+      height: 720px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Map Setup -->
+  <div id="mapid"></div>
+  <script>
+    let width = 1080;
+    let height = 720;
+
+    let container = document.getElementById('mapid', { style: `width:${width}px;height:${width}px` });
+    let map = L.map(container).setView([-15.050000, -54.900002], 4.4);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: 'pk.eyJ1Ijoic2FuZHJvYm94IiwiYSI6ImNrbGwxM2RkaTB5ZzQydW13NXh2MnBlaXAifQ.AJB9tRieYSpsqiTO7Nnn7A'
+    }).addTo(map);
+
+    L.marker([-15.050000, -54.900002]).addTo(map).bindPopup('Uncertainty').openPopup();
+
+    let BrazilAreas = [];
+    d3.json("https://raw.githubusercontent.com/nivan/data/master/brasil_estados.json")
+      .then(function (data) {
+        BrazilAreas = data;
+      })
+
+
+    
+
+  </script>
+  <!-- ./end Map Setup -->
+
+  <!-- D3Js Layers -->
+
+  <!-- ./end D3Js Layers -->
+
+</body>
+
+</html>
