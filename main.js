@@ -44,11 +44,11 @@ function clear() {
 // -------------------- CREATE AND UPDATE GLYPH COLOR SCHEME -------------------- //
 
 // Append color scheme select menu
-let select = d3.select("body")
+let select = d3.select(".container-fluid")
     .append('select')
     .attr('class', 'select')
     .attr('id', 'colorSelect')
-    .attr('x', 900)
+    .attr('x', -700)
     .attr('y', 250)
     .on('change', setColorScheme);
 
@@ -73,7 +73,7 @@ function setColorScheme() {
 
 // -------------------- CREATE AND UPDATE GLYPH BACK TRANSPARENCY -------------------- //
 // Append tranparency controller
-let sliderCanvasTransparency = d3.select("body")
+let sliderCanvasTransparency = d3.select(".container-fluid")
     .append('input')
     .attr('id', 'sliderCT')
     .property('type', 'range')
@@ -84,9 +84,9 @@ let sliderCanvasTransparency = d3.select("body")
     .on('input', d => { glyphBackTransparency() });
 
 // Append tranparency controller label
-let labelMatrixTranparency = d3.select("body")
+let labelMatrixTranparency = d3.select(".container-fluid")
     .append('label')
-    .text("Back transparency")
+    .text("Transparency")
     .attr('id', 'lblSliderCT')
     .attr('for', 'sliderCT');
 
@@ -142,7 +142,7 @@ let RECT_MATRIX_COLUMNS_INDEX = 8;
 let VERT_RECT_MATRIX_ROWS_INDEX = 8;
 let VERT_RECT_MATRIX_COLUMNS_INDEX = 2;
 // Append matrix proportion
-let matrixSelect = d3.select("body")
+let matrixSelect = d3.select(".container-fluid")
     .append('select')
     .attr('class', 'selectMatrix')
     .attr('id', 'matrixSelect')
@@ -169,7 +169,7 @@ function glyphMatrixType(v) {
 
 
 // Append matrix size controller
-let sliderMatrixSize = d3.select("body")
+let sliderMatrixSize = d3.select(".container-fluid")
     .append('input')
     .attr('id', 'sliderMS')
     .property('type', 'range')
@@ -179,7 +179,7 @@ let sliderMatrixSize = d3.select("body")
     .property('value', 0)
     .on('input', d => { glyphMatrixMultiplier() });
 
-let labelMatrixSize = d3.select("body")
+let labelMatrixSize = d3.select(".container-fluid")
     .append('label')
     .text("Matrix size: 1x")
     .attr('id', 'lblSliderMS')
