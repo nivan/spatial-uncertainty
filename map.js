@@ -1,18 +1,5 @@
 let width = 1140;
 let height = 800;
-              /*
-              let container = document.getElementById('div-map', { style: `width:${width}px;height:${height}px` });
-              let map = L.map(container).setView([-15.793889	, -47.882778], 10);
-
-              let osmLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1Ijoic2FuZHJvYm94IiwiYSI6ImNrbGwxM2RkaTB5ZzQydW13NXh2MnBlaXAifQ.AJB9tRieYSpsqiTO7Nnn7A'
-              }).addTo(map);
-              */
 
     // Lendo Arquivo
     let mapData = undefined;

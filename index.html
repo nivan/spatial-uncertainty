@@ -97,20 +97,27 @@
     #glyph-Paraíba {
       transform: translateX(40px) translatey(-25px);
     }
+    #glyph-Goiás{
+      transform: translateX(-22px) translatey(-3px);
+    }
     .rounded-3 {
       border-radius: 3em !important;
     }
     #TestQuestions{
       position: absolute;
-      top: 150;
-      left: 60%;
-      width: 300px;
-      height: 200px;
+      top: 100;
+      left: 55%;
+      width: 400px;
+      height: 250px;
     }
   </style>
 
 </head>
-
+<datalist id="tickmarks">
+  <option value="0.5" label="Min">
+  <option value="1" label="Normal">
+  <option value="2" label="Max">
+</datalist>
 <body>
   <main>
     <div class="container py-4">
@@ -122,14 +129,15 @@
 
       <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">Teste de Preço</h1>
+          <h1 class="display-5 fw-bold">Score de Produtores</h1>
           <svg id="div-map" width="1200" height="800"></svg>
         </div>
       </div>
 
     </div>
   </main>
-  <div id="TestQuestions" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+
+  <!-- <div id="TestQuestions" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#TestQuestions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#TestQuestions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -140,7 +148,7 @@
         <img src="/img/back-carrousel.jpeg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h5>Cenário 01</h5>
-          <p>Some representative placeholder content for the first slide.</p>
+          <p>Percentualmente, qual a proporção dos produtores do Acre que possuem escore para serem aprovados no processo?</p>
         </div>
       </div>
       <div class="carousel-item">
@@ -166,7 +174,7 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+  </div> -->
   <script type="text/javascript" src="map.js"></script>
   <script type="text/javascript" src="matrixGlyph.js"></script>
   <script type="text/javascript" src="main.js"></script>

@@ -1,3 +1,21 @@
+// -------------------- SEARCH DATASET URL PARAM  -------------------- //
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const scenario = urlParams.get('scenario')
+
+function urlSearch(){
+    if(urlParams.has('scenario')){
+        console.log("True: " + scenario);
+    } else {
+        urlParams.append('scenario', 'local-01');
+        console.log(">>>>>>>> " + urlParams.getAll('scenario'));
+        window.location.href = 'http://0.0.0.0:8000/?scenario='+urlParams.getAll('scenario');
+    }
+}
+urlSearch();
+
+// -------------------- UI SETUP APP  -------------------- //
+
 let svg = d3.select("#div-map");
 
 let distribution = d3.range(1000).map(d => Math.random());
@@ -83,7 +101,7 @@ let sliderCanvasTransparency = d3.select(".container-fluid")
     .property('step', '0.1')
     .on('input', d => { glyphBackTransparency() });
 
-// Append tranparency controller label
+// Append transparency controller label
 let labelMatrixTranparency = d3.select(".container-fluid")
     .append('label')
     .text("Transparency")
@@ -124,23 +142,16 @@ let matrixProportionData = [
     {
         "name": "Vertical Rect Matrix",
         "value": [1],
-        "rows": [170],
+        "rows": [100],
         "columns": [42.5],
     },
-    {
-        "name": "Horizontal Rect Matrix",
-        "value": [2],
-        "rows": [42.5],
-        "columns": [170],
-    }
 ];
 
-//Matrix size contants
+//Matrix size constants
 let QUAD_MATRIX_INDEX = 4;
-let RECT_MATRIX_ROWS_INDEX = 2;
-let RECT_MATRIX_COLUMNS_INDEX = 8;
 let VERT_RECT_MATRIX_ROWS_INDEX = 8;
 let VERT_RECT_MATRIX_COLUMNS_INDEX = 2;
+
 // Append matrix proportion
 let matrixSelect = d3.select(".container-fluid")
     .append('select')
@@ -150,6 +161,7 @@ let matrixSelect = d3.select(".container-fluid")
     .attr('y', 500)
     .property('value', 0)
     .on('change', d => { glyphMatrixType(d.value) });
+
 // Append items to select
 let matrixOptions = matrixSelect.selectAll('option')
     .data(matrixProportionData)
@@ -167,16 +179,15 @@ function glyphMatrixType(v) {
     plotScores(defaultScale);
 }
 
-
 // Append matrix size controller
 let sliderMatrixSize = d3.select(".container-fluid")
     .append('input')
     .attr('id', 'sliderMS')
     .property('type', 'range')
-    .property('min', '1')
-    .property('max', '10')
-    .property('step', '1')
-    .property('value', 0)
+    .property('min', '0.5')
+    .property('max', '4')
+    .property('step', '0.5')
+    .property('value', 1)
     .on('input', d => { glyphMatrixMultiplier() });
 
 let labelMatrixSize = d3.select(".container-fluid")
@@ -194,10 +205,8 @@ function glyphMatrixMultiplier() {
     d3.select("#lblSliderMS").text("Matrix size: " + mult + "x");
     //
     QUAD_MATRIX_INDEX = 4 * mult;
-    RECT_MATRIX_ROWS_INDEX = 4 * mult;
-    RECT_MATRIX_COLUMNS_INDEX = 8 * mult;
     VERT_RECT_MATRIX_ROWS_INDEX = 8 * mult;
-    VERT_RECT_MATRIX_COLUMNS_INDEX = 4 * mult;
+    VERT_RECT_MATRIX_COLUMNS_INDEX = 2 * mult;
 
     let defaultScale = d3.select("#colorSelect").property("value");
     plotScores(defaultScale);
@@ -206,7 +215,10 @@ function glyphMatrixMultiplier() {
 // -------------------- LOAD SCORE DATA -------------------- //
 
 function loadScoreData() {
-    d3.csv('preciptation_generated.csv').then(function (scores) {
+    let fileName = "./csv/experiment_dataset_"+scenario+".csv";
+    console.log(fileName);
+
+    d3.csv(fileName).then(function (scores) {
         scores.forEach(element => {
             let index = element['State'];
             if (!(index in scoreDistributions)) {
@@ -245,12 +257,8 @@ function plotScores(c) {
         if (matrixType == 0) {
             arrayDotGlyph(scoreDistributions[c[1]], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 85, 85, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
 
-        } else if (matrixType == 1) {
-            arrayDotGlyph(scoreDistributions[c[1]], VERT_RECT_MATRIX_ROWS_INDEX, VERT_RECT_MATRIX_COLUMNS_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 75, 110, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
-
         } else {
-            arrayDotGlyph(scoreDistributions[c[1]], RECT_MATRIX_ROWS_INDEX, RECT_MATRIX_COLUMNS_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 110, 75, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
-
+            arrayDotGlyph(scoreDistributions[c[1]], VERT_RECT_MATRIX_ROWS_INDEX, VERT_RECT_MATRIX_COLUMNS_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 75, 110, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
         }
 
     });
