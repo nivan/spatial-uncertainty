@@ -2,14 +2,18 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const scenario = urlParams.get('scenario')
+const matrixOrientation = urlParams.get('matrix')
 
-function urlSearch(){
-    if(urlParams.has('scenario')){
+function urlSearch() {
+    if (urlParams.has('scenario')) {
         console.log("True: " + scenario);
+        console.log("True: " + matrixOrientation);
     } else {
         urlParams.append('scenario', 'local-01');
+        urlParams.append('matrix', 0);
         console.log(">>>>>>>> " + urlParams.getAll('scenario'));
-        window.location.href = 'http://0.0.0.0:8000/?scenario='+urlParams.getAll('scenario');
+        console.log(">>>>>>>> " + urlParams.getAll('matrix'));
+        window.location.href = 'http://0.0.0.0:8000/?scenario=' + urlParams.getAll('scenario') + '&matrix=' + urlParams.getAll('matrix');
     }
 }
 urlSearch();
@@ -136,14 +140,14 @@ let matrixProportionData = [
     {
         "name": "Squared Matrix",
         "value": [0],
-        "rows": [85],
-        "columns": [85],
+        "rows": [90],
+        "columns": [90],
     },
     {
         "name": "Vertical Rect Matrix",
         "value": [1],
-        "rows": [100],
-        "columns": [42.5],
+        "rows": [120],
+        "columns": [75],
     },
 ];
 
@@ -215,7 +219,7 @@ function glyphMatrixMultiplier() {
 // -------------------- LOAD SCORE DATA -------------------- //
 
 function loadScoreData() {
-    let fileName = "./csv/experiment_dataset_"+scenario+".csv";
+    let fileName = "./csv/experiment_dataset_" + scenario + ".csv";
     console.log(fileName);
 
     d3.csv(fileName).then(function (scores) {
@@ -239,9 +243,6 @@ function plotScores(c) {
     mult = d3.select("#sliderMS").property("value");
     matrixType = d3.select("#matrixSelect").property("value");
     let listColors = d3[`scheme${c}`][10];
-
-    console.log("ListColors_______: " + listColors);
-
     let color = d3.scaleQuantize().domain([0, 1]).range(listColors);
 
     legend(1000, 600, svg, color, 'sequential', 'Sucesso do teste (%)', 'legend');
@@ -252,13 +253,24 @@ function plotScores(c) {
     //Centroids
     let centroids = mapData.features.map(d => [path.centroid(d), d.properties.ESTADO]);
 
-    console.log(centroids);
+    var path = d3.geoPath()
+        .projection(proj);
+    let ctd = mapData.features.map(d => path.centroid(d));
+    console.log("=========" + ctd)
+
     centroids.forEach(function (c) {
         if (matrixType == 0) {
-            arrayDotGlyph(scoreDistributions[c[1]], QUAD_MATRIX_INDEX, QUAD_MATRIX_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 85, 85, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
+            arrayDotGlyph(scoreDistributions[c[1]],
+                QUAD_MATRIX_INDEX,
+                QUAD_MATRIX_INDEX,
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 90, 90, c[0][0], c[0][1], c[1]);
 
         } else {
-            arrayDotGlyph(scoreDistributions[c[1]], VERT_RECT_MATRIX_ROWS_INDEX, VERT_RECT_MATRIX_COLUMNS_INDEX, d3.select("#div-map"), color, "glyph-" + c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""), 75, 110, c[0][0], c[0][1], c[1].replace(/[.,\/#!$%\^&\*;:{}=\-_`´~() ]/g, ""));
+            arrayDotGlyph(scoreDistributions[c[1]],
+                VERT_RECT_MATRIX_ROWS_INDEX,
+                VERT_RECT_MATRIX_COLUMNS_INDEX,
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0], c[0][1], c[1]);
+            console.log(">__________________________: " + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+\a-z]/ig, ""));
         }
 
     });

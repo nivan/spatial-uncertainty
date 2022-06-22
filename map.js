@@ -48,16 +48,18 @@ let height = 800;
           d3.select(this).attr("fill", "white");
         });
 
-      //Centroids
-      let centroids = mapData.features.map(d => [path.centroid(d), d.properties.ESTADO]);
-
+      //centroids
+      let centroids = mapData.features.map(d=>path.centroid(d));
       d3.select("svg")
-        .selectAll("circle")
-        .data(centroids)
-        .enter()
-        .append("circle")
-        .attr("cx", d => d[0][0])
-        .attr("cy", d => d[0][1])
-        .attr("r", 3)
-        .attr("fill", "gray");
+      .selectAll("circle")
+      .data(centroids)
+      .enter()
+      .append("circle")
+      .attr("cx",d=>d[0])
+      .attr("cy",d=>d[1])
+      .attr("r",3)
+      .attr("fill","gray");
+      
+
+
     }

@@ -31,10 +31,11 @@ function legend(x, y, svgContainer, colorScale, scaleType, legendTitle, legendID
         .call(colorLegend);
     return;
 }
-    
+
+
 function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, id, width, height, posX, posY, states, distMode = 'quantile') {
     let numSamples = numRows * numColumns;
-
+    // debugger
     // Grupo que contem as bolinhas
     let container = svgContainer.append("g");
     container.attr("id", id);
@@ -75,7 +76,7 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
     values.sort((a, b) => (b - a));
 
     //Borda do canvas do Glyph
-    let borderCanvas = container.append("rect")
+    let borderCanvas = container.append('rect')
         .data([container])
         .attr("class", "canvas")
         .attr("x", canvasAdjustedX - 3)
@@ -104,11 +105,27 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
         .attr("fill", (d, i) => color(d[1]))
         .attr("stroke", "none")
 
-
-    let stateLabel = container.append("text")
+    let stateLabel = container.append('text')
         .data([container])
         .attr("class", "state-label")
+        .attr("font-family", "Roboto Condensed")
         .attr("x", canvasAdjustedX)
         .attr("y", canvasAdjustedY)
         .text(states)
+
+        var path = d3.geoPath()
+        .projection(proj);
+        let ctd = mapData.features.map(d=>path.centroid(d));
+        let centroids = mapData.features.map(d=>path.centroid(d));
+        let indice = mapData.features.map(d=>d.properties.ESTADO).indexOf(states)
+        let centroid = centroids[indice]
+
+        let stateLine = container.append('path')
+            .data([centroid])
+            .attr('d', d=>d3.line()([d,[posX,posY]]))
+            .style("stroke", "red")
+            .style("stroke-width", 1)
+            .attr("fill", 'none')
+
 }
+
