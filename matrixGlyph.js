@@ -14,7 +14,7 @@ function legend(x, y, svgContainer, colorScale, scaleType, legendTitle, legendID
     svgContainer.append("text")
         .attr("class", "title")
         .attr("x", x)
-        .attr("y", y - 16)
+        .attr("y", y)
         .text(legendTitle);
 
     var group = svgContainer.append('g').attr("transform", "translate(" + x + "," + y + ")").attr("class", "legendQuant");

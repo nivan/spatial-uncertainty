@@ -245,7 +245,7 @@ function plotScores(c) {
     let listColors = d3[`scheme${c}`][10];
     let color = d3.scaleQuantize().domain([0, 1]).range(listColors);
 
-    legend(1000, 600, svg, color, 'sequential', 'Sucesso do teste (%)', 'legend');
+    legend(1000, 500, d3.select("#svg-map"), color, 'sequential', 'Escala de Sucesso (%)', 'legend');
 
     //gerador de caminhos que vai converter os objetos geojson em caminhos do SVG
     var path = d3.geoPath().projection(proj);
