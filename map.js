@@ -49,17 +49,15 @@ let height = 800;
         });
 
       //centroids
-      let centroids = mapData.features.map(d=>path.centroid(d));
-      d3.select("svg")
-      .selectAll("circle")
-      .data(centroids)
-      .enter()
-      .append("circle")
-      .attr("cx",d=>d[0])
-      .attr("cy",d=>d[1])
-      .attr("r",3)
-      .attr("fill","gray");
-      
-
+      // let centroids = mapData.features.map(d=>path.centroid(d));
+      // d3.select("svg")
+      // .selectAll("circle")
+      // .data(centroids)
+      // .enter()
+      // .append("circle")
+      // .attr("cx",d=>d[0])
+      // .attr("cy",d=>d[1])
+      // .attr("r",3)
+      // .attr("fill","gray");
 
     }
