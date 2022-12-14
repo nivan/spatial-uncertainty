@@ -1,0 +1,68 @@
+        
+        function forceCollide() {
+            padding = 100;
+            width = canvasWidth;
+            height = canvasheight;
+            let nodes;
+            function force(alpha) {
+              const quad = d3.quadtree(nodes, d => d.x, d => d.y);
+              for (const d of nodes) {
+                quad.visit((q, x1, y1, x2, y2) => {
+                  let updated = false;
+                  if(q.data && q.data !== d){
+                          let x = d.x - q.data.x,
+                            y = d.y - q.data.y,
+                            xSpacing = padding + (q.data.width + d.width) / 2,
+                            ySpacing = padding + (q.data.height + d.height) / 2,
+                            absX = Math.abs(x),
+                            absY = Math.abs(y),
+                            l,
+                            lx,
+                            ly;
+          
+                          if (absX < xSpacing && absY < ySpacing) {
+                              l = Math.sqrt(x * x + y * y);
+          
+                              lx = (absX - xSpacing) / l;
+                              ly = (absY - ySpacing) / l;
+          
+                              // the one that's barely within the bounds probably triggered the collision
+                              if (Math.abs(lx) > Math.abs(ly)) {
+                                  lx = 0;
+                              } else {
+                                  ly = 0;
+                              }
+                              d.x -= x *= lx;
+                              d.y -= y *= ly;
+                              q.data.x += x;
+                              q.data.y += y;
+          
+                              updated = true;
+                          }
+                      }
+                      return updated;
+                });
+              }
+            }
+
+            force.initialize = _ => nodes = _;
+
+            return force;
+          }
+
+
+
+        //Features of the forces applied to the nodes:
+        const simulation = d3.forceSimulation()
+        .force("center", d3.forceCenter().x(canvasWidth / 2).y(canvasheight / 2)) // Attraction to the center of the svg area
+        .force("charge", d3.forceManyBody().strength(0.5)) // Nodes are attracted one each other of value is > 0
+        .force("collide", d3.forceCollide().strength(.01).radius(30).iterations(1)) // Force that avoids circle overlapping
+        
+        simulation
+        .nodes([container])
+        .on("tick", function(d){
+            console.log(d);
+            borderCanvas
+            .attr("x", function(d){ return d.x; })
+            .attr("y", function(d){ return d.y; })
+        });

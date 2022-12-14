@@ -152,9 +152,9 @@ let matrixProportionData = [
 ];
 
 //Matrix size constants
-let QUAD_MATRIX_INDEX = 4;
-let VERT_RECT_MATRIX_ROWS_INDEX = 8;
-let VERT_RECT_MATRIX_COLUMNS_INDEX = 2;
+let QUAD_MATRIX_INDEX = 5;
+let VERT_RECT_MATRIX_ROWS_INDEX = 4;
+let VERT_RECT_MATRIX_COLUMNS_INDEX = 5;
 
 // Append matrix proportion
 let matrixSelect = d3.select(".container-fluid")
@@ -243,34 +243,39 @@ function plotScores(c) {
     mult = d3.select("#sliderMS").property("value");
     matrixType = d3.select("#matrixSelect").property("value");
     let listColors = d3[`scheme${c}`][10];
-    let color = d3.scaleQuantize().domain([0, 1]).range(listColors);
+    //Custom color scale: Based on Color Brewer divergent scale
+    //https://colorbrewer2.org/#type=diverging&scheme=RdBu&n=10
+    let color = d3.scaleQuantize().domain([0, 1]).range([
+        "#CC211F",
+        "#FF6666",
+        "#F7A959",
+        "#FFCC99",
+        "#F9E086",
+        "#FFFFCC",
+        "#70A0CA",
+        "#A5D2E5",
+        "#99CC99",
+        "#CCFFCC",
+    ]);
 
-    legend(1000, 500, d3.select("#svg-map"), color, 'sequential', 'Escala de Sucesso (%)', 'legend');
+    legend(60, 550, d3.select("#svg-map"), color, 'sequential', 'Escala de Sucesso (%)', 'legend');
 
     //gerador de caminhos que vai converter os objetos geojson em caminhos do SVG
     var path = d3.geoPath().projection(proj);
 
     //Centroids
-    let centroids = mapData.features.map(d => [path.centroid(d), d.properties.ESTADO]);
-
-    var path = d3.geoPath()
-        .projection(proj);
-    let ctd = mapData.features.map(d => path.centroid(d));
-    console.log("=========" + ctd)
-
+    let centroids = mapData.features.map(d => [path.centroid(d), d.properties.ESTADO, d.properties.UF]);
     centroids.forEach(function (c) {
         if (matrixType == 0) {
             arrayDotGlyph(scoreDistributions[c[1]],
-                QUAD_MATRIX_INDEX,
-                QUAD_MATRIX_INDEX,
-                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 90, 90, c[0][0], c[0][1], c[1]);
-
+                4,
+                5,
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 115, 110, c[0][0], c[0][1], c[1], c[2]);
         } else {
             arrayDotGlyph(scoreDistributions[c[1]],
                 VERT_RECT_MATRIX_ROWS_INDEX,
                 VERT_RECT_MATRIX_COLUMNS_INDEX,
-                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0], c[0][1], c[1]);
-            console.log(">__________________________: " + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+\a-z]/ig, ""));
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0], c[0][1], c[1], c[2]);
         }
 
     });

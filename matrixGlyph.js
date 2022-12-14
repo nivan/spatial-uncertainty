@@ -33,31 +33,32 @@ function legend(x, y, svgContainer, colorScale, scaleType, legendTitle, legendID
 }
 
 
-function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, id, width, height, posX, posY, states, distMode = 'quantile') {
+function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, id, width, height, posX, posY, states, uf, distMode = 'quantile') {
     let numSamples = numRows * numColumns;
     // debugger
     // Grupo que contem as bolinhas
     let container = svgContainer.append("g");
-    container.attr("id", id);
+    container.attr("id", id)
+    container.attr("class", "glyph")
+    container.attr("width", 80)
+    container.attr("height", 80)
+    
 
     //Captura o centro do quadrado
     let centerX = posX + width / 2.0;
     let centerY = posY + height / 2.0;
 
     // Espaçamento entre a matriz e o box (Borda)
-    let slackness = 12;
-    let adjustedCanvasWidth = width - 5.2 * slackness;
-    let adjustedCanvasHeight = height - 5.2 * slackness;
+    let slackness = 35;
+    let adjustedCanvasWidth = width - 2 * slackness;
+    let adjustedCanvasHeight = height - 2 * slackness;
 
     let canvasAdjustedX = posX;
     let canvasAdjustedY = posY;
 
     //Calculando W e H de cada bolinha
     let sampleWidth = adjustedCanvasWidth / numColumns;
-    let sampleHeight = adjustedCanvasHeight / numRows;
-
-    let circleDiameter = sampleHeight;
-    let circleRadius = sampleHeight / 2;
+    let sampleHeight = adjustedCanvasHeight / numRows ;
 
     let values = [];
 
@@ -78,17 +79,17 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
     //Borda do canvas do Glyph
     let borderCanvas = container.append('rect')
         .data([container])
-        .attr("class", "canvas")
-        .attr("x", canvasAdjustedX - 3)
-        .attr("y", canvasAdjustedY - 3)
-        .attr("rx", "6")
-        .attr("ry", "6")
-        .attr("width", adjustedCanvasWidth + 6)
-        .attr("height", adjustedCanvasHeight + 6)
+        .attr("class", "canvas shadow")
+        .attr("id", "rect-"+uf)
+        .attr("x", canvasAdjustedX - 1)
+        .attr("y", canvasAdjustedY - 1)
+        .attr("rx", "3")
+        .attr("ry", "3")
+        .attr("width", adjustedCanvasWidth + 3)
+        .attr("height", adjustedCanvasHeight + 2)
         .attr("fill", "white")
-        .attr("stroke", "#768591")
 
-    //Contrução da matriz de bolinhas
+    //Construção da matriz de bolinhas
     container.selectAll(".sample")
         .data(d3.zip(d3.range(numRows * numColumns), values)) // Range > Criar a lista
         .enter()
@@ -103,29 +104,46 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
         })
         .attr("r", sampleWidth / 2)
         .attr("fill", (d, i) => color(d[1]))
-        .attr("stroke", "none")
+        .attr("stroke", "white")
+        .style("stroke-width", .5) 
 
     let stateLabel = container.append('text')
         .data([container])
         .attr("class", "state-label")
+        .attr("id", "state-label"+uf)
         .attr("font-family", "Roboto Condensed")
         .attr("x", canvasAdjustedX)
         .attr("y", canvasAdjustedY)
         .text(states)
 
-        var path = d3.geoPath()
-        .projection(proj);
-        let ctd = mapData.features.map(d=>path.centroid(d));
-        let centroids = mapData.features.map(d=>path.centroid(d));
-        let indice = mapData.features.map(d=>d.properties.ESTADO).indexOf(states)
-        let centroid = centroids[indice]
-
-        let stateLine = container.append('path')
-            .data([centroid])
-            .attr('d', d=>d3.line()([d,[posX,posY]]))
-            .style("stroke", "red")
-            .style("stroke-width", 1)
-            .attr("fill", 'none')
+    //DEBUG
+        // console.group("Glyph & Centroid positions")
+        // console.log("RECT > ", svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y"), uf);
+        // console.log("CIRC > ", svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy"), uf); 
+    //END DEBUG
+    linkingStates(svgContainer, uf, container, states);
 
 }
 
+//Linking States (Path)
+function linkingStates(svgContainer, uf, container, states){
+    
+    const nodes = [];
+    nodes.push([svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y")]);
+    nodes.push([svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy")]);
+    // nodes.push([0, 0]);
+
+    // Create a horizontal link from the first node to the second
+    const links = d3.linkHorizontal()({
+        source: nodes[0],
+        target: nodes[1]
+    });
+
+    const stateLine = container.append('path')
+        .attr('d', links)
+        .data(nodes)
+        .style("stroke", "red")
+        .style("stroke-width", 5)
+        .attr("fill", 'none');
+
+}
