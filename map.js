@@ -52,7 +52,7 @@ let canvasheight = 850;
       .append("circle")
       .attr("cx",d=>d[0][0])
       .attr("cy",d=>d[0][1])
-      .attr("r",5)
+      .attr("r",3)
       .attr("id", d=> "circ-"+d[1])
       .attr("fill","gray");
 

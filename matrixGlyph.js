@@ -34,6 +34,8 @@ function legend(x, y, svgContainer, colorScale, scaleType, legendTitle, legendID
 
 
 function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, id, width, height, posX, posY, states, uf, distMode = 'quantile') {
+    
+    //
     let numSamples = numRows * numColumns;
     // debugger
     // Grupo que contem as bolinhas
@@ -118,8 +120,8 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
 
     //DEBUG
         // console.group("Glyph & Centroid positions")
-        // console.log("RECT > ", svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y"), uf);
-        // console.log("CIRC > ", svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy"), uf); 
+        console.log("RECT > ", svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y"), uf);
+        console.log("CIRC > ", svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy"), uf); 
     //END DEBUG
     linkingStates(svgContainer, uf, container, states);
 
@@ -127,11 +129,11 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
 
 //Linking States (Path)
 function linkingStates(svgContainer, uf, container, states){
-    
+
     const nodes = [];
     nodes.push([svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y")]);
     nodes.push([svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy")]);
-    // nodes.push([0, 0]);
+    //nodes.push([0, 0]);
 
     // Create a horizontal link from the first node to the second
     const links = d3.linkHorizontal()({
@@ -142,8 +144,8 @@ function linkingStates(svgContainer, uf, container, states){
     const stateLine = container.append('path')
         .attr('d', links)
         .data(nodes)
-        .style("stroke", "red")
-        .style("stroke-width", 5)
+        .style("stroke", "gray")
+        .style("stroke-width", 3)
         .attr("fill", 'none');
 
 }

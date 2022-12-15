@@ -263,20 +263,41 @@ function plotScores(c) {
     //gerador de caminhos que vai converter os objetos geojson em caminhos do SVG
     var path = d3.geoPath().projection(proj);
 
+    //
+    var deslocamentos = {
+        'CE':[20,-80],
+        'PB':[100,-60],
+        'PE':[100,-20],
+        'AL':[60,20],
+        'RN':[30,-60],
+        'SE':[20,40],
+        'PI':[10,10],
+        'DF':[20,-40],
+        'SC':[50,-10],
+        'GO':[10,20],
+        'RJ':[30,20],
+    };
+
     //Centroids
     let centroids = mapData.features.map(d => [path.centroid(d), d.properties.ESTADO, d.properties.UF]);
-    centroids.forEach(function (c) {
+    centroids.forEach((function (c) {
+        var deslocX = 0;
+        var deslocY = 0;
+        if(c[2] in this){
+            deslocX = this[c[2]][0];
+            deslocY = this[c[2]][1];
+        }
         if (matrixType == 0) {
             arrayDotGlyph(scoreDistributions[c[1]],
                 4,
                 5,
-                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 115, 110, c[0][0], c[0][1], c[1], c[2]);
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 115, 110, c[0][0]+deslocX, c[0][1]+deslocY, c[1], c[2]);
         } else {
             arrayDotGlyph(scoreDistributions[c[1]],
                 VERT_RECT_MATRIX_ROWS_INDEX,
                 VERT_RECT_MATRIX_COLUMNS_INDEX,
-                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0], c[0][1], c[1], c[2]);
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0]+deslocX, c[0][1]+deslocY, c[1], c[2]);
         }
 
-    });
+    }).bind(deslocamentos));
 }
