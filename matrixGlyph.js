@@ -116,7 +116,7 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
         .attr("font-family", "Roboto Condensed")
         .attr("x", canvasAdjustedX)
         .attr("y", canvasAdjustedY)
-        .text(states)
+        .text(uf)
 
     //DEBUG
         // console.group("Glyph & Centroid positions")
@@ -145,7 +145,7 @@ function linkingStates(svgContainer, uf, container, states){
         .attr('d', links)
         .data(nodes)
         .style("stroke", "gray")
-        .style("stroke-width", 3)
+        .style("stroke-width", 2)
         .attr("fill", 'none');
 
 }

@@ -153,8 +153,8 @@ let matrixProportionData = [
 
 //Matrix size constants
 let QUAD_MATRIX_INDEX = 5;
-let VERT_RECT_MATRIX_ROWS_INDEX = 4;
-let VERT_RECT_MATRIX_COLUMNS_INDEX = 5;
+let VERT_RECT_MATRIX_ROWS_INDEX = 2;
+let VERT_RECT_MATRIX_COLUMNS_INDEX = 10;
 
 // Append matrix proportion
 let matrixSelect = d3.select(".container-fluid")
@@ -265,17 +265,18 @@ function plotScores(c) {
 
     //
     var deslocamentos = {
-        'CE':[20,-80],
-        'PB':[100,-60],
-        'PE':[100,-20],
+        'CE':[10,-90],
+        'PB':[110,-50],
+        'PE':[90,-20],
         'AL':[60,20],
-        'RN':[30,-60],
-        'SE':[20,40],
+        'RN':[30,-65],
+        'SE':[35,50],
         'PI':[10,10],
         'DF':[20,-40],
         'SC':[50,-10],
         'GO':[10,20],
         'RJ':[30,20],
+        'ES':[20,20],
     };
 
     //Centroids
@@ -287,7 +288,7 @@ function plotScores(c) {
             deslocX = this[c[2]][0];
             deslocY = this[c[2]][1];
         }
-        if (matrixType == 0) {
+        if (matrixOrientation == 0) {
             arrayDotGlyph(scoreDistributions[c[1]],
                 4,
                 5,
@@ -296,7 +297,7 @@ function plotScores(c) {
             arrayDotGlyph(scoreDistributions[c[1]],
                 VERT_RECT_MATRIX_ROWS_INDEX,
                 VERT_RECT_MATRIX_COLUMNS_INDEX,
-                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 75, 120, c[0][0]+deslocX, c[0][1]+deslocY, c[1], c[2]);
+                d3.select("#svg-map"), color, "glyph-" + c[1].normalize("NFD").replace(/[\u0300-\u036f\s+]/ig, "").toLowerCase(), 170, 90, c[0][0]+deslocX, c[0][1]+deslocY, c[1], c[2]);
         }
 
     }).bind(deslocamentos));
