@@ -118,11 +118,10 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
         .attr("y", canvasAdjustedY)
         .text(uf)
 
-    //DEBUG
-        // console.group("Glyph & Centroid positions")
+    //Log Source and Target path
         console.log("RECT > ", svgContainer.select("#rect-" + uf).attr("x"), svgContainer.select("#rect-" + uf).attr("y"), uf);
         console.log("CIRC > ", svgContainer.select("#circ-" + uf).attr("cx"), svgContainer.select("#circ-" + uf).attr("cy"), uf); 
-    //END DEBUG
+    //
     linkingStates(svgContainer, uf, container, states);
 
 }
