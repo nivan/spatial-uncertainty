@@ -37,7 +37,6 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
     
     //
     let numSamples = numRows * numColumns;
-    // debugger
     // Grupo que contem as bolinhas
     let container = svgContainer.append("g");
     container.attr("id", id)
@@ -64,17 +63,17 @@ function arrayDotGlyph(distribution, numRows, numColumns, svgContainer, color, i
 
     let values = [];
 
-    if (distMode == 'random') {
-        for (let i = 0; i < numSamples; ++i) {
-            let index = getRandomInt(0, distribution.length);
-            values.push(distribution[index]);
-        }
-    }
-    else if (distMode == 'quantile') {
-        for (let i = 0; i < numSamples; ++i) {
-            values.push(math.quantileSeq(distribution, (1.0 * i) / (numSamples - 1), true));
-        }
-    }
+    // if (distMode == 'random') {
+    //     for (let i = 0; i < numSamples; ++i) {
+    //         let index = getRandomInt(0, distribution.length);
+    //         values.push(distribution[index]);
+    //     }
+    // }
+    // else if (distMode == 'quantile') {
+    //     for (let i = 0; i < numSamples; ++i) {
+    //         values.push(math.quantileSeq(distribution, (1.0 * i) / (numSamples - 1), true));
+    //     }
+    // }
 
     values.sort((a, b) => (b - a));
 

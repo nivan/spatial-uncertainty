@@ -37,6 +37,25 @@ let VERT_RECT_MATRIX_COLUMNS_INDEX = 10;
 
 // -------------------- LOAD SCORE DATA -------------------- //
 
+// function loadScoreData() {
+//     let fileName = "./csv/experiment_dataset_" + scenario + ".csv";
+//     console.log(fileName);
+
+//     d3.csv(fileName).then(function (scores) {
+//         scores.forEach(element => {
+//             let index = element['State'];
+//             if (!(index in scoreDistributions)) {
+//                 scoreDistributions[index] = [];
+//             }
+//             if (+element['Prec_Prob'] > 0.01) {
+//                 scoreDistributions[index].push(+element['Prec_Prob']);
+//             }
+//         });
+//         let defaultScale = "Spectral";
+//         plotScores(defaultScale);
+//     })
+// }
+
 function loadScoreData() {
     let fileName = "./csv/experiment_dataset_" + scenario + ".csv";
     console.log(fileName);
@@ -47,8 +66,11 @@ function loadScoreData() {
             if (!(index in scoreDistributions)) {
                 scoreDistributions[index] = [];
             }
-            if (+element['Prec_Prob'] > 0.01) {
-                scoreDistributions[index].push(+element['Prec_Prob']);
+            // Inserir valores de q1 a q5 no array de distribuição de pontuação correspondente
+            for (let i = 1; i <= 20; i++) {
+                if (+element['q' + i] > 0.01) {
+                    scoreDistributions[index].push(+element['q' + i]);
+                }
             }
         });
         let defaultScale = "Spectral";
@@ -104,6 +126,7 @@ function plotScores(c) {
         if(c[2] in this){
             deslocX = this[c[2]][0];
             deslocY = this[c[2]][1];
+            
         }
         if (matrixOrientation == 0) {
             arrayDotGlyph(scoreDistributions[c[1]],
